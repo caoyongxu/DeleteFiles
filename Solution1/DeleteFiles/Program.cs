@@ -19,7 +19,10 @@ namespace DeleteFiles
             List<DirectoryInfo> Folders = new List<DirectoryInfo>();
             foreach (var folder in Directory.EnumerateDirectories(currntfolder))
             {
-                Folders.Add(new DirectoryInfo(folder));
+                foreach (var f in Directory.EnumerateDirectories(folder))
+                {
+                    Folders.Add(new DirectoryInfo(f));
+                }
             }
 
             Folders.OrderBy(o => o.CreationTime);
@@ -29,7 +32,7 @@ namespace DeleteFiles
                 System.Console.WriteLine($"{f.Name}  :  {f.CreationTime} ");
             }
 
-            List<DirectoryInfo> Folders2Delete = Folders.Where(o => o.CreationTime < DateTime.Now.AddMonths(-7)).ToList();
+            List<DirectoryInfo> Folders2Delete = Folders.Where(o => o.CreationTime < DateTime.Now.AddMonths(-4)).ToList();
 
             foreach (var fd in Folders2Delete)
             {
